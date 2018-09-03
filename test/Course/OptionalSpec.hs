@@ -3,11 +3,10 @@
 
 module Course.OptionalSpec where
 
-import           Test.Hspec               (Spec, describe, it, shouldBe)
+import Test.Hspec (Spec, describe, it, shouldBe)
 
-import           Course.Core
-import           Course.Optional  (Optional (..), bindOptional, mapOptional,
-                                   (<+>), (??))
+import Course.Core
+import Course.Optional (Optional (..), bindOptional, mapOptional, optional, (<+>), (??))
 spec :: Spec
 spec = do
   describe "mapOptional" $ do
@@ -45,3 +44,9 @@ spec = do
       Empty <+> Full 9 `shouldBe` Full 9
     it "both empty" $
       Empty <+> Empty `shouldBe` (Empty :: Optional Integer)
+
+  describe "optional" $ do
+    it "apply function to Full" $
+      optional (+1) 0 (Full 8) `shouldBe` 9
+    it "default for Empty" $
+      optional (+1) 0 Empty `shouldBe` 0
